@@ -249,7 +249,15 @@
 
 					$('a.plupload_start', target).click(function(e) {
 						if (!$(this).hasClass('plupload_disabled')) {
-							uploader.start();
+							var callback_result = true;
+							
+							//If we have a callback function assigned before the upload event is executed get it's result
+							if (settings.beforeupload) {
+								callback_result = settings.beforeupload(uploader);
+							}
+							if (callback_result) {
+								uploader.start();
+							}
 						}
 
 						e.preventDefault();
